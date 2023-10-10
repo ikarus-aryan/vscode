@@ -1,0 +1,101 @@
+.App{
+    height: 100%;
+    background: url('./images/galaxy.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.gui{
+    position: fixed;
+    z-index: 1;
+    color: white;
+    bottom: 0;
+    left: 0;
+}
+
+.stat {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 400px; /* Adjust the width as needed */
+  padding: 10px;
+  background-color: transparent;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.bar {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.bar > div {
+  margin: 5px 0;
+}
+
+.stat-button {
+  background-color: #007acc; /* Adjust the button color */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.stat-button:hover {
+  background-color: #005eaa; /* Adjust the button hover color */
+}
+
+/* FormComponent.css */
+
+.form-container {
+    position: fixed;
+    bottom: 1px; /* Adjust the distance from the bottom as needed */
+    right: 0;
+    padding: 20px;
+    /* transform: translateX(-5%); */
+    background-color: rgb(63, 62, 62);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Adjust the width as needed */
+    text-align: center;
+    /* border-radius: 20px; */
+  }
+  
+  .form-container h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  
+  .form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-container input[type="text"],
+  .form-container input[type="number"],
+  .form-container select,
+  .form-container input[type="date"],
+  .form-container input[type="file"],
+  .form-container button {
+    width: 85%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-container button {
+    background-color: #007acc;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .form-container button:hover {
+    background-color: #005eaa;
+  }
+  
