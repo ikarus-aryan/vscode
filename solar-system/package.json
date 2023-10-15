@@ -12,6 +12,7 @@
     "axois": "^0.0.1-security",
     "camera-controls": "^2.7.2",
     "fs": "^0.0.1-security",
+    "gsap": "^3.12.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",

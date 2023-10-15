@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import PlanetData from '../planetData.json';
 const FormData = ({close, planetName, callBack}) => {
     const [formData, setFormData] = useState({
         name: '',
@@ -11,7 +10,7 @@ const FormData = ({close, planetName, callBack}) => {
         reg_date: '',
         profile_pic: '',
       });
-      const [planetData, setPlanetData] = useState(PlanetData);
+      const [planetData, setplanetData] = useState([]);
       const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -19,7 +18,18 @@ const FormData = ({close, planetName, callBack}) => {
           [name]: value,
         });
       };
-    
+      useEffect(()=>{
+        const fetchData = async () => {
+          try{
+            const res = await axios.get("http://localhost:4000/getData");
+            // console.log(res);
+            setplanetData(JSON.parse(res.data));
+          }catch(err){
+            console.log(err);
+          }
+        }
+        fetchData();
+      },[]);
       const handleFileChange = (e) => {
         const file = e.target.files[0];
         setFormData({
@@ -28,30 +38,25 @@ const FormData = ({close, planetName, callBack}) => {
         });
       };
       // const updatePopulation = async () => {
-      //   // const planet = planetData.planets.find((planet)=>{return planet.name===planetName});
-      //   // planet.population_count+=1;
+      //   const planet = planetData.planets.find((planet)=>{return planet.name===planetName});
+      //   planet.population_count+=1;
       // } 
-      const handleParentCall = ({data}) => {
-        console.log("updated data at form: ",data);
-        callBack(data);
+      const handleParentCall = () => {
+        callBack();
       }
       const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
-        if (formData.phone.toString().length !== 10) {
-            alert("Please enter a valid mobile number of 10 digits");
-            return;
-        }
         try {
             const response = await axios.post("http://localhost:4000/register", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             console.log(response.data);
-            alert("user added");
+            alert("user Registered");
             const updatedPlanetData = { ...planetData };
             const planetIndex = updatedPlanetData.planets.findIndex((planet) => planet.name === planetName);
             updatedPlanetData.planets[planetIndex].population_count += 1;
-            setPlanetData(updatedPlanetData);
+            setplanetData(updatedPlanetData);
             console.log(updatedPlanetData);
             const res = await axios.post("http://localhost:4000/update", updatedPlanetData, {
               headers: {
@@ -59,15 +64,15 @@ const FormData = ({close, planetName, callBack}) => {
               },
             });
             console.log(res);
-            // const res2 = await axios.get("http://localhost:4000/getData");
-            // console.log("updated data at form: ",updatedPlanetData);
-            // handleParentCall(updatedPlanetData);
-            
+            console.log("updated data at form: ", planetData);
+            handleParentCall(); 
         } catch (err) {
             if (err.response && err.response.status === 409) {
-                alert("User already registered");
+                alert("New User cannot register with same phone number");
             }else if(err.response && err.response.status === 400){
                 alert("only .webp or .png image File expected");
+            } else if(err.response && err.response.status === 411){
+              alert("phone number should be of 10 digits");
             } else {
                 console.log(err);
             }
@@ -76,6 +81,7 @@ const FormData = ({close, planetName, callBack}) => {
       const callParentFunction = () => {
         close();
       }
+      const today = new Date().toISOString().split("T")[0];
       return (
     <div className="form-container">
       <h2>Registration Form</h2>
@@ -99,6 +105,7 @@ const FormData = ({close, planetName, callBack}) => {
             id="age"
             name="date_of_birth"
             value={formData.date_of_birth}
+            max={today}
             onChange={handleChange}
             required
             className="form-input"
@@ -140,6 +147,7 @@ const FormData = ({close, planetName, callBack}) => {
             name="reg_date"
             value={formData.reg_date}
             onChange={handleChange}
+            max={today}
             required
             className="form-input" 
           />

@@ -4,6 +4,7 @@ import FormData from './formData';
 
 const Stats = ({data, callBack}) => {
     const [isOpen, setOpen] = useState(false);
+    const [population, setPopulation] = useState(data.population_count);
     const openForm = () => {
         if(!isOpen){
             setOpen(true);
@@ -14,11 +15,11 @@ const Stats = ({data, callBack}) => {
             setOpen(false);
         }
     }
-    const callParent = ({updatedData}) => {
-        console.log("updated data at stat: ",updatedData);
-        callBack(updatedData);
+    const callParent = () => {
+        callBack();
+        const k = population+1;
+        setPopulation(k);
     }
-
   return (
     <>
         <div className='stat'>
@@ -26,7 +27,7 @@ const Stats = ({data, callBack}) => {
             <div className='bar'>
                 <div><b>TYPE: </b> {data.planet_type}</div>
                 <div><b>Living Condition: </b> {data.good_living_condition}</div>
-                <div><b>Population Count: </b> {data.population_count}</div>
+                <div><b>Population Count: </b> {population}</div>
                 <div><b>polution Level: </b> {data.pollution_level}</div>
             </div>
             <div className='bar'> 

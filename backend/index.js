@@ -13,9 +13,9 @@ app.use(express.json());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
 const db = mysql.createConnection({
-    // host: 'host.docker.internal',
-    host: 'localhost',
-    port: 3306,
+    host: 'host.docker.internal',
+    // host: 'localhost',
+    // port: 3306,
     user: 'root',
     password: 'Aryan@123',
     database: 'solar'
@@ -35,6 +35,9 @@ app.post("/register", uploadMiddleware.single('profile_pic'), (req, res) => {
     db.query(k, [req.body.phone], async (err, result) => {
         if (err) {
             return res.send(err);
+        }
+        if(req.body.phone.length !=10){
+            return res.status(411).send("Phone Number should be of 10 digits");
         }
         if (result[0].count > 0) {
             return res.status(409).send("User already registered");
@@ -78,8 +81,8 @@ app.get('/getData',(req,res)=>{
 });
 
 app.post('/update',(req,res)=>{
-    // const filePath = './planetData.json';
-    const filePath = '../solar-system/src/planetData.json';
+    const filePath = './planetData.json';
+    // const filePath = '../solar-system/src/planetData.json';
     const updatedPlanetData = req.body;
     if (updatedPlanetData) {
         const dataToWrite = JSON.stringify(updatedPlanetData);
